@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass
 
+from car_game.Effects import CollectableType, Effect
 from car_game.Geometry import Box, Coords
 
 
@@ -34,7 +35,13 @@ class Obstacle(Car):
         
 class Collectable:
     
-    def __init__(self, size: Size):
+    def __init__(self, size: Size, CollectableType: CollectableType):
         self.size = size
-        self.position = (0, 0)  # Initial position of the collectable
-        
+        self.type = CollectableType
+        self.coords = Coords(0, 0)  # Initial position of the collectable
+    
+    
+    @property
+    def box(self) -> Box:
+        return Box(coords=self.coords, size=self.size)
+    

@@ -2,6 +2,7 @@
 from dataclasses import dataclass
 
 from car_game.Entities import Size
+from car_game.Geometry import Box, Coords
 
 
 @dataclass(frozen=True)
@@ -15,7 +16,7 @@ class Settings:
     lane_width: int = 100
     lane_count: int = 4
     cooldown_time: int = 1000  # in milliseconds
-    effect_duration: int = 5000  # in milliseconds
+    effect_duration: int = 300  # in milliseconds
     obstacle_count: int = 6
     
     @property
@@ -25,6 +26,10 @@ class Settings:
     @property
     def max_obstacle_speed(self) -> int:
         return round(self.obstacle.height / 8)
+    
+    @property
+    def screen_Box(self) -> "Box":
+        return Box(coords=Coords(0, 0), size=self.screen_size)
     
     @property
     def lane_x_position(self, lane_index: int) -> int:
