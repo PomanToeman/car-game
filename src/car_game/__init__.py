@@ -1,4 +1,4 @@
-from car_game.Settings import Settings
+
 def main() -> None:
     print("Hello from car-game!")
 

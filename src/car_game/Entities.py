@@ -2,6 +2,8 @@
 
 from dataclasses import dataclass
 
+from car_game.Geometry import Box, Coords
+
 
 @dataclass(frozen=True)
 class Size:
@@ -13,7 +15,11 @@ class Size:
 class Car:
     def __init__(self, size: Size):
         self.size = size
-        self.position = (0, 0)  # Initial position of the player car
+        self.coords = Coords(0, 0)  # Initial position of the car
+        
+    @property
+    def box(self) -> Box:
+        return Box(coords=self.coords, size=self.size)
 
 class Player_Car(Car):
     def __init__(self, size: Size):
