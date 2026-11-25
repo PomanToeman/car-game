@@ -2,8 +2,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
-from car_game.Entities import Size
+if TYPE_CHECKING:
+    from car_game.Entities import Size
 
 """ A rectangular area in the game world. has a position (x, y) and a size (width, height). """
 @dataclass(frozen=True)
@@ -44,3 +46,8 @@ class Coords:
     def __init__(self, x: int, y: int):
         self.x = x
         self.y = y
+        
+    def add_coords_new(self, other: Coords) -> Coords:
+        """Makes new instance"""
+        
+        return Coords(self.x + other.x, self.y + other)

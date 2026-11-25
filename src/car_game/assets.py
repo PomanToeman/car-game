@@ -1,6 +1,10 @@
 
 from enum import Enum
+from pathlib import Path
 import pygame
+
+
+ASSET_ROOT = Path(__file__).resolve().parent / "assets"
 
 def MissingAssetError(message: str):
     """Custom exception for missing assets."""
@@ -8,15 +12,20 @@ def MissingAssetError(message: str):
 
 def load_image(path: str) -> pygame.Surface:
     """Load an image from the given path and return a Pygame Surface."""
+    image_path = ASSET_ROOT / Path(path).name
+    if not image_path.is_file():
+        raise FileNotFoundError(f"No asset found at: {image_path}")    
     try:
-        image = pygame.image.load(path)
+        image = pygame.image.load(image_path)
         return image.convert_alpha()  # Convert for better performance with transparency
-    except pygame.error as e:
+    except pygame.error or FileNotFoundError as e:
         print(f"Unable to load image at {path}: {e}")
         raise SystemExit(e)
     
-def load_image_assets(asset_enum: Enum) -> dict:
+def load_image_assets(asset_enum: list[Enum]) -> dict:
     """Load images for all assets defined in the given Enum and return a dictionary mapping asset names to Pygame Surfaces."""
+  
+       
     assets = {}
     assets_missing = [] # this list will hold the names of any assets that fail to load
     for asset in asset_enum:

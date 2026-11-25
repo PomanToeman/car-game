@@ -1,13 +1,11 @@
 
-from pytest import Class
-
-
 class HighScore:
     """Class to manage the high score of the game. Saves the high score to a file and loads it when the game starts."""
     def __init__(self, score: int = 0, store_path: str = "highscore.txt"):
+        self.store_path = store_path
+        self.score: int = score
         self.load_high_score()
         self.update_high_score(score)
-        self.store_path = store_path
         
         
     def load_high_score(self):
@@ -30,10 +28,14 @@ class HighScore:
             self.score = new_score
             self.save_high_score()
     
+    @property
+    def score(self) -> int:
+        return self._score
+
     @score.setter
     def score(self, value: int):
         if value < 0:
             raise ValueError("Score cannot be negative")
-        self.update_high_score(value)
+        self._score = value
             
     
